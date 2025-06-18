@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playerBarContainer"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="#121212"
+    android:padding="10dp"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/albumArtCardView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/albumArtImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/placeholder_music" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/songTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/songArtistTextView"
+        app:layout_constraintEnd_toStartOf="@id/playPauseButton"
+        app:layout_constraintStart_toEndOf="@id/albumArtCardView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Song Title Here" />
+
+    <TextView
+        android:id="@+id/songArtistTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#A0A0A0"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/playPauseButton"
+        app:layout_constraintStart_toStartOf="@id/songTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/songTitleTextView"
+        tools:text="Artist Name" />
+
+    <ImageButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="6dp"
+        android:src="@drawable/play2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
