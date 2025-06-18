@@ -2,10 +2,10 @@
 package com.example.soundsphere.data.models
 
 // Imported types - we'll need these too
-import Album
-import Quality
-import Playlist
-import Song
+import com.example.soundsphere.data.models.Album
+import com.example.soundsphere.data.models.Quality
+import com.example.soundsphere.data.models.Playlist
+import com.example.soundsphere.data.models.Song
 
 data class Artist(
     val id: String,
@@ -43,14 +43,21 @@ data class ArtistBio(
     val sequence: Int
 )
 
+data class Module_2(
+    val title: String,
+    val subtitle: String,
+    val source: String,
+    val position: Int
+)
+
 data class ArtistModules(
-    val top_songs: Module,
-    val latest_release: Module,
-    val top_albums: Module,
-    val dedicated_artist_playlist: Module,
-    val featured_artist_playlist: Module,
-    val singles: Module,
-    val similar_artists: Module
+    val top_songs: Module_2,
+    val latest_release: Module_2,
+    val top_albums: Module_2,
+    val dedicated_artist_playlist: Module_2,
+    val featured_artist_playlist: Module_2,
+    val singles: Module_2,
+    val similar_artists: Module_2
 )
 
 data class SimilarArtist(
@@ -124,13 +131,6 @@ data class ArtistSongsOrAlbums(
     val dominant_type: String,
     val top_songs: ArtistTopSongs,
     val top_albums: ArtistTopAlbums
-)
-
-data class Module(
-    val title: String,
-    val subtitle: String,
-    val source: String,
-    val position: Int
 )
 
 data class Urls(

@@ -7,7 +7,7 @@ import com.example.soundsphere.data.models.Type
 import com.example.soundsphere.data.models.Playlist
 import com.example.soundsphere.data.models.Song
 
-data class A<T>(
+data class A_2<T>(
     val count: Int,
     val last_page: Boolean,
     val data: List<T>
@@ -42,7 +42,7 @@ sealed class TrendingItem {
 
 typealias Trending = List<TrendingItem>
 
-typealias FeaturedPlaylists = A<Playlist>
+typealias FeaturedPlaylists = A_2<Playlist>
 
 data class Chart(
     val id: String,
@@ -112,7 +112,7 @@ sealed class TopAlbumItem {
     data class AlbumItem(val album: Album) : TopAlbumItem()
 }
 
-typealias TopAlbum = A<TopAlbumItem>
+typealias TopAlbum = A_2<TopAlbumItem>
 
 data class Radio(
     val id: String,
