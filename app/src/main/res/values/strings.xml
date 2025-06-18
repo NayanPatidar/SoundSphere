@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SoundSphere</string>
+    <string name="song_item_description">Song number %1$d, %2$s, with %3$s plays</string>
 </resources>

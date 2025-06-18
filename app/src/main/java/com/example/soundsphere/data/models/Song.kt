@@ -12,6 +12,14 @@ data class SongObj(
     val modules: SongModules? = null
 )
 
+data class MusicItem(
+    val name: String,
+    val subtitle: String,
+    val imageUrl: String,
+    val clickUrl: String,
+    val type: String
+)
+
 data class Song(
     val id: String,
     val name: String,
@@ -36,7 +44,7 @@ data class Song(
     val label_url: String,
     val origin: String,
     val is_dolby_content: Boolean,
-    val `320kbps`: Boolean, // Backticks for property names with special characters
+    val `320kbps`: Boolean,
     val download_url: Quality,
     val duration: Int,
     val rights: Rights,
