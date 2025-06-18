@@ -1,0 +1,122 @@
+package com.example.soundsphere.presentation.ui.fragments.album
+
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.soundsphere.R
+import com.example.soundsphere.data.models.MusicItemPlayer
+import com.example.soundsphere.data.repository.PlayerStateRepository
+import com.example.soundsphere.databinding.FragmentAlbumBinding
+import com.example.soundsphere.presentation.adapter.SongsAdapter
+import com.example.soundsphere.presentation.viewmodel.AlbumViewModel
+import com.example.soundsphere.utils.Resource
+import com.google.gson.JsonObject
+
+class AlbumFragment : Fragment() {
+
+    private var _binding: FragmentAlbumBinding? = null
+    private val binding get() = _binding!!
+
+    private val albumViewModel: AlbumViewModel by viewModels()
+    private lateinit var songsAdapter: SongsAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentAlbumBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+
+        val albumUrl = arguments?.getString("url") ?: ""
+        val albumId = albumUrl.substringAfterLast('/')
+        Log.d("AlbumFragment", "Album ID: $albumId")
+
+        if (albumId.isNotBlank()) {
+            setupObservers()
+            albumViewModel.loadAlbumData(albumId)
+        } else {
+            Log.e("AlbumFragment", "Failed to extract a valid ID from the path.")
+        }
+    }
+
+    private fun setupObservers() {
+        albumViewModel.albumData.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Success -> handleSuccessResponse(resource.data)
+                is Resource.Error -> Log.e("AlbumFragment", "Error: ${resource.message}")
+                is Resource.Loading -> Log.d("AlbumFragment", "Loading...")
+            }
+        }
+    }
+
+    private fun handleSuccessResponse(jsonResponse: JsonObject?) {
+        val albumData = jsonResponse?.getAsJsonObject("data") ?: return
+
+        val albumName = albumData.get("name")?.asString ?: "Unknown Album"
+        val imageUrl =
+            albumData.getAsJsonArray("image")?.lastOrNull()?.asJsonObject?.get("link")?.asString
+                ?: ""
+
+        binding.albumTitle.text = albumName
+        Glide.with(this).load(imageUrl).placeholder(R.drawable.placeholder_music)
+            .into(binding.albumArtImageView)
+
+        val songsList = albumData.getAsJsonArray("songs")?.map { it.asJsonObject }
+        songsAdapter.submitList(songsList)
+    }
+
+    private fun setupRecyclerView() {
+        songsAdapter = SongsAdapter { clickedSongJson, playlistJson ->
+
+            val playlist = playlistJson.map { jsonToMusicItem(it) }
+            val clickedSong = jsonToMusicItem(clickedSongJson)
+            Log.d("ClickedSong", "Clicked Song: $clickedSong")
+            Log.d("ClickedSong-Playlist", "Clicked Song: $playlist")
+
+            PlayerStateRepository.playSong(clickedSong, playlist)
+
+            Log.d("AlbumFragment", "Playing '${clickedSong.name}'")
+        }
+        binding.songsRecyclerView.adapter = songsAdapter
+        binding.songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun jsonToMusicItem(songJson: JsonObject): MusicItemPlayer {
+        val downloadUrls = songJson.get("download_url")?.asJsonArray
+        val highQualityUrl = downloadUrls?.find {
+            it.asJsonObject.get("quality")?.asString == "320kbps"
+        }?.asJsonObject?.get("link")?.asString
+
+        Log.d("AlbumFragment", "High Quality URL: $highQualityUrl")
+
+        val imageUrls = songJson.get("image")?.asJsonArray
+        val highQualityImageUrl = imageUrls?.find {
+            it.asJsonObject.get("quality")?.asString == "500x500"
+        }?.asJsonObject?.get("link")?.asString
+
+        return MusicItemPlayer(
+            id = songJson.get("id")?.asString ?: "",
+            name = songJson.get("name")?.asString ?: "Unknown Song",
+            type = songJson.get("type")?.asString ?: "song",
+            subtitle = songJson.get("primaryArtists")?.asString ?: "Unknown Artist",
+            imageUrl = highQualityImageUrl.toString(),
+            songUrl = highQualityUrl
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
