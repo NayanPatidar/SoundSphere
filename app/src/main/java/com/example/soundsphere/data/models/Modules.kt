@@ -1,14 +1,9 @@
 // File: data/models/Models.kt
 package com.example.soundsphere.data.models
 
+import com.google.gson.annotations.SerializedName
+
 // Imported types - we'll need these too
-import com.example.soundsphere.data.models.Chart
-import com.example.soundsphere.data.models.Radio
-import com.example.soundsphere.data.models.Trending
-import com.example.soundsphere.data.models.Quality
-import com.example.soundsphere.data.models.Type
-import com.example.soundsphere.data.models.Playlist
-import com.example.soundsphere.data.models.Song
 
 data class Module<T>(
     val title: String,
@@ -122,4 +117,10 @@ data class GlobalConfigItemLang(
     val image: String,
     val listid: String,
     val title: String? = null
+)
+
+data class HomeResponse(
+    val status: String,
+    val message: String,
+    val data: Map<String, Modules>
 )
