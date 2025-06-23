@@ -1,0 +1,279 @@
+<!-- layout_player_full.xml -->
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playerSheetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#121212"
+    android:minHeight="72dp"
+    app:behavior_hideable="false"
+    app:layoutDescription="@xml/layout_player_full_scene"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:visibility="visible">
+
+    <SeekBar
+        android:id="@+id/playerSeekBar"
+        android:clickable="false"
+        android:focusable="false"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="24dp"
+        android:progressTint="@color/white"
+        android:thumbTint="@color/white"
+        android:progressDrawable="@drawable/custom_progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:progress="0" />
+
+
+    <View
+        android:id="@+id/dragHandle"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.0"
+        android:background="@drawable/ic_launcher_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Album Art Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/albumArtCardView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/albumArtImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_music"
+            tools:src="@drawable/placeholder_music" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Clickable area for expanding player (only in collapsed state) -->
+    <View
+        android:id="@+id/playerClickArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/playPauseButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Song Title -->
+    <TextView
+        android:id="@+id/songTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:maxLines="1"
+        android:text="Song Title"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/songArtistTextView"
+        app:layout_constraintEnd_toStartOf="@id/playPauseButton"
+        app:layout_constraintStart_toEndOf="@id/albumArtCardView"
+        app:layout_constraintTop_toTopOf="@id/albumArtCardView"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Song Title Here" />
+
+    <!-- Artist Name -->
+    <TextView
+        android:id="@+id/songArtistTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:maxLines="1"
+        android:text="Artist Name"
+        android:textColor="#A0A0A0"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/albumArtCardView"
+        app:layout_constraintEnd_toEndOf="@id/songTitleTextView"
+        app:layout_constraintStart_toStartOf="@id/songTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/songTitleTextView"
+        tools:text="Artist Name" />
+
+    <TextView
+        android:id="@+id/currentTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/playerSeekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="1:23" />
+
+    <TextView
+        android:id="@+id/totalDurationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/currentTimeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/currentTimeTextView"
+        tools:text="4:05" />
+
+    <!-- Play/Pause Button -->
+    <ImageButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/play2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/white" />
+
+    <!-- EXPANDED STATE VIEWS (Initially Hidden) -->
+
+    <!-- Top Bar Controls -->
+    <ImageButton
+        android:id="@+id/downArrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:alpha="0.0"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/placeholder_music"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/moreOptions"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.0"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/placeholder_music"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/downArrow"
+        app:tint="@color/white" />
+
+    <!-- Seek Bar and Time -->
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:alpha="0.0"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/songArtistTextView" />
+
+    <TextView
+        android:id="@+id/currentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.0"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="0:00"
+        android:textColor="#A0A0A0"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/seekBar"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
+
+    <TextView
+        android:id="@+id/totalTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.0"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="3:45"
+        android:textColor="#A0A0A0"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/seekBar"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
+
+    <!-- Playback Control Buttons -->
+    <ImageButton
+        android:id="@+id/shuffleButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:alpha="0.0"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/search_icon"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/previousButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:alpha="0.0"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/search_icon"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/nextButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:alpha="0.0"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/search_icon"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/repeatButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:alpha="0.0"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/search_icon"
+        app:tint="@color/white" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

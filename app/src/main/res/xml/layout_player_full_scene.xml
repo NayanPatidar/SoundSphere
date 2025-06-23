@@ -1,0 +1,275 @@
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:autoTransition="none"
+        app:constraintSetEnd="@+id/expanded"
+        app:constraintSetStart="@+id/collapsed"
+        app:duration="400"
+        app:motionInterpolator="easeInOut">
+
+        <!-- Key frame to control intermediate states -->
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0.0"
+                app:framePosition="0"
+                app:motionTarget="@id/dragHandle" />
+            <KeyAttribute
+                android:alpha="1.0"
+                app:framePosition="100"
+                app:motionTarget="@id/dragHandle" />
+
+            <!-- Hide click area in expanded state -->
+            <KeyAttribute
+                android:alpha="1.0"
+                app:framePosition="0"
+                app:motionTarget="@id/playerClickArea" />
+            <KeyAttribute
+                android:alpha="0.0"
+                app:framePosition="100"
+                app:motionTarget="@id/playerClickArea" />
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/collapsed">
+
+        <Constraint
+            android:id="@+id/playerSheetContainer"
+            android:layout_width="match_parent"
+            android:layout_height="72dp" />
+
+        <Constraint
+            android:id="@+id/albumArtCardView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/songTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toTopOf="@id/songArtistTextView"
+            app:layout_constraintEnd_toStartOf="@id/playPauseButton"
+            app:layout_constraintStart_toEndOf="@id/albumArtCardView"
+            app:layout_constraintTop_toTopOf="@id/albumArtCardView"
+            app:layout_constraintVertical_chainStyle="packed">
+            <CustomAttribute
+                app:attributeName="textSize"
+                app:customDimension="6sp" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/songArtistTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/albumArtCardView"
+            app:layout_constraintEnd_toEndOf="@id/songTitleTextView"
+            app:layout_constraintStart_toStartOf="@id/songTitleTextView"
+            app:layout_constraintTop_toBottomOf="@id/songTitleTextView">
+            <CustomAttribute
+                app:attributeName="textSize"
+                app:customDimension="4sp" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/playPauseButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/downArrow"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/moreOptions"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/currentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/totalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/shuffleButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/previousButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/nextButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="0.0" />
+        <Constraint
+            android:id="@+id/repeatButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="0.0" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/expanded">
+        <Constraint
+            android:id="@+id/playerSheetContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <Constraint
+            android:id="@+id/downArrow"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:alpha="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/moreOptions"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/downArrow" />
+        <Constraint
+            android:id="@+id/albumArtCardView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:alpha="1.0"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/downArrow">
+            <CustomAttribute
+                app:attributeName="cardCornerRadius"
+                app:customDimension="12dp" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/songTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:alpha="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/albumArtCardView">
+            <CustomAttribute
+                app:attributeName="textSize"
+                app:customDimension="14sp" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/songArtistTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            app:layout_constraintEnd_toEndOf="@id/songTitleTextView"
+            app:layout_constraintStart_toStartOf="@id/songTitleTextView"
+            app:layout_constraintTop_toBottomOf="@id/songTitleTextView">
+            <CustomAttribute
+                app:attributeName="textSize"
+                app:customDimension="11sp" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:alpha="1.0"
+            app:layout_constraintEnd_toEndOf="@id/albumArtCardView"
+            app:layout_constraintStart_toStartOf="@id/albumArtCardView"
+            app:layout_constraintTop_toBottomOf="@id/songArtistTextView" />
+        <Constraint
+            android:id="@+id/currentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            app:layout_constraintStart_toStartOf="@id/seekBar"
+            app:layout_constraintTop_toBottomOf="@id/seekBar" />
+        <Constraint
+            android:id="@+id/totalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            app:layout_constraintEnd_toEndOf="@id/seekBar"
+            app:layout_constraintTop_toBottomOf="@id/seekBar" />
+
+        <Constraint
+            android:id="@+id/playPauseButton"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="16dp"
+            android:alpha="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentTime" />
+        <Constraint
+            android:id="@+id/previousButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintEnd_toStartOf="@id/playPauseButton"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/shuffleButton"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+        <Constraint
+            android:id="@+id/nextButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintEnd_toStartOf="@id/repeatButton"
+            app:layout_constraintStart_toEndOf="@id/playPauseButton"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+        <Constraint
+            android:id="@+id/shuffleButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintEnd_toStartOf="@id/previousButton"
+            app:layout_constraintStart_toStartOf="@id/seekBar"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+        <Constraint
+            android:id="@+id/repeatButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintEnd_toEndOf="@id/seekBar"
+            app:layout_constraintStart_toEndOf="@id/nextButton"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+    </ConstraintSet>
+</MotionScene>
