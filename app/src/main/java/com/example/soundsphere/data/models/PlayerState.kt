@@ -15,5 +15,6 @@ data class MusicItemPlayer(
     val type: String,
     val subtitle: String,
     val imageUrl: String?,
-    val songUrl: String?
+    val songUrl: String?,
+    val duration: Int = 0
 )
