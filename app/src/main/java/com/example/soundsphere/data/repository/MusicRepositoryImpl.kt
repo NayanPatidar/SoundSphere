@@ -1,5 +1,6 @@
 package com.example.soundsphere.data.repository
 
+import android.util.Log
 import com.example.soundsphere.data.models.Album
 import com.example.soundsphere.data.models.Artist
 import com.example.soundsphere.data.models.HomeResponse
@@ -20,7 +21,6 @@ class MusicRepositoryImpl : MusicRepository {
             if (response.isSuccessful && response.body() != null) {
                 emit(Resource.Success<JsonObject>(response.body()!!))
             } else {
-                // Handle unsuccessful response
                 emit(Resource.Error<JsonObject>("Failed to load home data: ${response.message()}"))
             }
         } catch (e: Exception) {
@@ -50,6 +50,21 @@ class MusicRepositoryImpl : MusicRepository {
                 emit(Resource.Success<JsonObject>(response.body()!!))
             } else {
                 emit(Resource.Error<JsonObject>("Failed to load artists: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error<JsonObject>(e.message ?: "An error occurred"))
+        }
+    }
+
+    override suspend fun getSongDetails(songId: String): Flow<Resource<JsonObject>> = flow {
+        emit(Resource.Loading<JsonObject>())
+        try {
+            Log.d("SongViewModel", "Fetching song details for ID: $songId")
+            val response = apiService.getSongDetails(songId)
+            if (response.isSuccessful && response.body() != null) {
+                emit(Resource.Success<JsonObject>(response.body()!!))
+            } else {
+                emit(Resource.Error<JsonObject>("Failed to load song details: ${response}"))
             }
         } catch (e: Exception) {
             emit(Resource.Error<JsonObject>(e.message ?: "An error occurred"))

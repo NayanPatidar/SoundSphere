@@ -9,4 +9,5 @@ interface MusicRepository {
     suspend fun getHomeData(): Flow<Resource<JsonObject>>
     suspend fun getAlbumDetails(albumId: String): Flow<Resource<JsonObject>>
     suspend fun getArtists() : Flow<Resource<JsonObject>>
+    suspend fun getSongDetails(songId: String): Flow<Resource<JsonObject>>
 }
