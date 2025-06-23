@@ -24,9 +24,6 @@ import com.example.soundsphere.utils.getHref
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
-//import com.example.soundsphere.presentation.ui.fragments.home.HomeFragmentDirections
-
-
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -43,8 +40,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupObservers()
+        addBottomPaddingForPlayer()
         homeViewModel.loadHomeData()
     }
 
@@ -64,6 +61,19 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun addBottomPaddingForPlayer() {
+        val playerBarHeight = resources.getDimensionPixelSize(R.dimen.mini_player_height)
+
+        val recyclerView = binding.homeScrollView
+        recyclerView.setPadding(
+            recyclerView.paddingLeft,
+            recyclerView.paddingTop,
+            recyclerView.paddingRight,
+            playerBarHeight
+        )
+        recyclerView.clipToPadding = false
     }
 
     private fun handleSuccessResponse(jsonResponse: JsonObject?) {
@@ -167,17 +177,24 @@ class HomeFragment : Fragment() {
                 retrievedItem?.let { itemData ->
 
                     val newPath = getHref(itemData.clickUrl, itemData.type)
+                    Log.d("Path", newPath)
 
-                    // Step 2: Navigate if the type is "album".
+                    Log.d("TypeSong", "Type: ${itemData.type}")
                     if (itemData.type.equals("album", ignoreCase = true)) {
-                        // Pass the newly generated path to your navigation action.
                         val bundle = bundleOf(
                             "url" to getHref(itemData.clickUrl, itemData.type),
                             "type" to itemData.type
                         )
 
                         findNavController().navigate(R.id.action_home_to_album, bundle)
-                    } else {
+                    } else if (itemData.type.equals("song", ignoreCase = true)) {
+                        val bundle = bundleOf(
+                            "url" to getHref(itemData.clickUrl, itemData.type),
+                            "type" to itemData.type
+                        )
+
+                        findNavController().navigate(R.id.action_home_to_song, bundle)
+                    } else  {
                         Log.d(
                             "CardClick",
                             "Clicked on type '${itemData.type}', not navigating to album."
