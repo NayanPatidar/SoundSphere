@@ -44,6 +44,7 @@ class AlbumHeaderAdapter : RecyclerView.Adapter<AlbumHeaderAdapter.HeaderViewHol
     class HeaderViewHolder(private val binding: ItemAlbumHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: JsonObject) {
+            Log.d("AlbumHeaderAdapter", "Binding data: $data")
             binding.albumTitle.text = data.get("name")?.asString ?: "Unknown Album"
             val imageUrl =
                 data.getAsJsonArray("image")?.lastOrNull()?.asJsonObject?.get("link")?.asString
@@ -121,6 +122,21 @@ class AlbumFragment : Fragment() {
         binding.songsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
+    private fun getArtistNames(songJson: JsonObject): String {
+        val artistMapObject = songJson.getAsJsonObject("artist_map")
+        val primaryArtistsArray = artistMapObject?.getAsJsonArray("primary_artists")
+        val artistNames = primaryArtistsArray
+            ?.mapNotNull { artistElement ->
+                artistElement.asJsonObject?.get("name")?.asString
+            }
+            ?.joinToString(", ")
+        return if (artistNames.isNullOrEmpty()) {
+            "Unknown Artist"
+        } else {
+            artistNames
+        }
+    }
+
     private fun jsonToMusicItem(songJson: JsonObject): MusicItemPlayer {
         val downloadUrls = songJson.get("download_url")?.asJsonArray
         val highQualityUrl = downloadUrls?.find {
@@ -128,9 +144,6 @@ class AlbumFragment : Fragment() {
         }?.asJsonObject?.get("link")?.asString
         val durationInSeconds = songJson.get("duration")?.asInt ?: 0
         val durationInMillis = durationInSeconds * 1000
-
-        Log.d("AlbumFragment", "High Quality URL: $highQualityUrl")
-
         val imageUrls = songJson.get("image")?.asJsonArray
         val highQualityImageUrl = imageUrls?.find {
             it.asJsonObject.get("quality")?.asString == "500x500"
@@ -140,7 +153,7 @@ class AlbumFragment : Fragment() {
             id = songJson.get("id")?.asString ?: "",
             name = songJson.get("name")?.asString ?: "Unknown Song",
             type = songJson.get("type")?.asString ?: "song",
-            subtitle = songJson.get("primaryArtists")?.asString ?: "Unknown Artist",
+            subtitle = getArtistNames(songJson),
             imageUrl = highQualityImageUrl.toString(),
             songUrl = highQualityUrl,
             duration = durationInMillis

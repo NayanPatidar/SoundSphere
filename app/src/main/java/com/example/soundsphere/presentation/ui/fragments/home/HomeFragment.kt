@@ -244,7 +244,6 @@ class HomeFragment : Fragment() {
 
             image.isJsonArray && image.asJsonArray.size() > 2 -> {
                 val url = image.asJsonArray[2].asJsonObject.get("link")?.asString ?: ""
-                Log.d("fetchImageURL", "Array URL: $url")
                 url
             }
 
