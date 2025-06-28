@@ -56,11 +56,26 @@ class MusicRepositoryImpl : MusicRepository {
         }
     }
 
-    override suspend fun getSongDetails(songId: String): Flow<Resource<JsonObject>> = flow {
+    override suspend fun getSongDetails(playlistId: String): Flow<Resource<JsonObject>> = flow {
         emit(Resource.Loading<JsonObject>())
         try {
-            Log.d("SongViewModel", "Fetching song details for ID: $songId")
-            val response = apiService.getSongDetails(songId)
+            Log.d("PlaylistViewModal", "Fetching playlist details for ID: $playlistId")
+            val response = apiService.getSongDetails(playlistId)
+            if (response.isSuccessful && response.body() != null) {
+                emit(Resource.Success<JsonObject>(response.body()!!))
+            } else {
+                emit(Resource.Error<JsonObject>("Failed to load song details: ${response}"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error<JsonObject>(e.message ?: "An error occurred"))
+        }
+    }
+
+    override suspend fun getPlaylistDetails(playlistId: String): Flow<Resource<JsonObject>> = flow {
+        emit(Resource.Loading<JsonObject>())
+        try {
+            Log.d("SongViewModel", "Fetching song details for ID: $playlistId")
+            val response = apiService.getPlaylistDetails(playlistId)
             if (response.isSuccessful && response.body() != null) {
                 emit(Resource.Success<JsonObject>(response.body()!!))
             } else {

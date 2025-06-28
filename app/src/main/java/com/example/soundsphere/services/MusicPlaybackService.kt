@@ -65,22 +65,15 @@ class MusicPlaybackService : MediaSessionService() {
         }
     }
 
-    /**
-     * This is the key function for your request.
-     * It launches a coroutine that runs as long as the service is alive,
-     * updating the playback progress every second.
-     */
     private fun startProgressUpdater() {
         serviceScope.launch {
             while (isActive) {
-                // Only update progress if a song is actually playing
                 if (player.isPlaying) {
                     PlayerStateRepository.updatePlaybackPosition(
                         position = player.currentPosition,
                         duration = player.duration
                     )
                 }
-                // Wait for one second before the next update
                 delay(1000)
             }
         }

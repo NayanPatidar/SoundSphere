@@ -17,4 +17,7 @@ interface MusicApiService {
 
     @GET("/song")
     suspend fun getSongDetails(@Query("token") songId: String): Response<JsonObject>
+
+    @GET("/playlist")
+    suspend fun getPlaylistDetails(@Query("token") playlistId: String): Response<JsonObject>
 }
