@@ -194,7 +194,16 @@ class HomeFragment : Fragment() {
                         )
 
                         findNavController().navigate(R.id.action_home_to_song, bundle)
-                    } else  {
+                    } else if (itemData.type.equals("playlist", ignoreCase = true)) {
+                        Log.d("TypePlaylist", "Type: ${itemData.type}")
+                        Log.d("PlaylistURL", "URL: ${getHref(itemData.clickUrl, itemData.type)}")
+                        val bundle = bundleOf(
+                            "url" to getHref(itemData.clickUrl, itemData.type),
+                            "type" to itemData.type
+                        )
+
+                        findNavController().navigate(R.id.action_home_to_playlist, bundle)
+                    }  else  {
                         Log.d(
                             "CardClick",
                             "Clicked on type '${itemData.type}', not navigating to album."

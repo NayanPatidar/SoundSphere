@@ -18,17 +18,15 @@
             android:id="@+id/action_home_to_song"
             app:destination="@id/nav_song" />
 
+        <action
+            android:id="@+id/action_home_to_playlist"
+            app:destination="@id/nav_playlists" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_artists"
         android:name="com.example.soundsphere.presentation.ui.fragments.artists.ArtistsFragment"
         android:label="Artists" />
-
-    <fragment
-        android:id="@+id/nav_playlists"
-        android:name="com.example.soundsphere.presentation.ui.fragments.playlists.PlaylistsFragment"
-        android:label="Albums" />
 
     <fragment
         android:id="@+id/nav_library"
@@ -59,6 +57,19 @@
         <argument
             android:name="type"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_playlists"
+        android:name="com.example.soundsphere.presentation.ui.fragments.playlist.PlaylistFragment"
+        android:label="Playlist"
+        tools:layout="@layout/fragment_song">
+    <argument
+        android:name="url"
+        app:argType="string" />
+    <argument
+        android:name="type"
+        app:argType="string" />
     </fragment>
 
 </navigation>
