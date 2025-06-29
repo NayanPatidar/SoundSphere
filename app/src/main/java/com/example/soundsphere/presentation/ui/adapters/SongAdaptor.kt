@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.soundsphere.R
+import com.example.soundsphere.databinding.ItemNoSongsFoundBinding
 import com.example.soundsphere.databinding.ItemSongBinding
 import com.google.gson.JsonObject
 import java.text.NumberFormat
@@ -13,16 +14,43 @@ import java.util.Locale
 
 class SongsAdapter(
     private val onItemClicked: (song: JsonObject, playlist: List<JsonObject>) -> Unit
-) : ListAdapter<JsonObject, SongsAdapter.SongViewHolder>(SongViewHolder.SongDiffCallback()) {
+) : ListAdapter<JsonObject, RecyclerView.ViewHolder>(SongViewHolder.SongDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
-        val binding = ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SongViewHolder(binding)
+    companion object {
+        private const val VIEW_TYPE_SONG = 1
+        private const val VIEW_TYPE_EMPTY = 2
     }
 
-    override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
-        val songObject = getItem(position)
-        holder.bind(songObject, position + 1, currentList, onItemClicked)
+    class EmptyViewHolder(binding: ItemNoSongsFoundBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun getItemCount(): Int {
+        return if (currentList.isEmpty()) 1 else currentList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (currentList.isEmpty()) VIEW_TYPE_EMPTY else VIEW_TYPE_SONG
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_SONG -> {
+                val binding = ItemSongBinding.inflate(inflater, parent, false)
+                SongViewHolder(binding)
+            }
+            VIEW_TYPE_EMPTY -> {
+                val binding = ItemNoSongsFoundBinding.inflate(inflater, parent, false)
+                EmptyViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Invalid view type: $viewType")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is SongViewHolder) {
+            val songObject = getItem(position)
+            holder.bind(songObject, position + 1, currentList, onItemClicked)
+        }
     }
 
     class SongViewHolder(private val binding: ItemSongBinding) :
